@@ -3,7 +3,11 @@ import * as cheerio from 'cheerio';
 
 async function fetchData(key) {
   try {
-    const response = await fetch(`https://metrics.zappingtv.com/public/rating/${key}`);
+    const response = await fetch(`https://metrics.zappingtv.com/public/rating/${key}`, {
+      next: {
+        revalidate: 60, // 1 min
+      },
+    });
 
     if (!response.ok) {
       return null
