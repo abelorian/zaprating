@@ -1,20 +1,26 @@
-import Ratings from '../zappingRating'
+import { ratingSorted } from '../zappingRating'
 import Tweet from '../twitter'
 import { NextResponse } from 'next/server'
 
 export async function GET(request) {
   const { searchParams } = new URL(request.url)
-  console.log(searchParams)
+  const key = searchParams && searchParams.get('key')
+  const ratings = await ratingSorted()
+  const validRatings = ratings.every(rating => rating !== null);
 
-  const canal13 = await Ratings("13")
-  const tvn = await Ratings("tvno")
-  const mega = await Ratings("mega")
-  const lared = await Ratings("lared")
-  const chv = await Ratings("chv")
-  const tvm = await Ratings("tvm")
+  if (validRatings){
+    const tweetText = ratings.map(channel => `${channel.name} → ${channel.rating}`).join('\n');
 
-  Tweet(`Canal 13 → ${canal13}\nTVN → ${tvn}\nMega → ${mega}\nCHV → ${chv}\nLaRed → ${lared}\nTV+ → ${tvm}`)
+    console.log(key)
+    console.log(tweetText);
 
-  return NextResponse.json({ canal13, tvn, lared, mega, chv, tvm });
+    if (key && key === process.env.KEY){
+      console.log("Send tweet")
+      Tweet(tweetText)
+    }
+    return NextResponse.json({ ratings });
+  }
+
+  return NextResponse.json({ error: ':(' });
 }
 

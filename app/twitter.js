@@ -8,12 +8,9 @@ export default async function Tweet(text){
     accessSecret: process.env.ACCESS_SECRET,
   });
 
-  console.log(userClient)
-  console.log("*******************************************")
-
   if (true) {
     await userClient.v2.tweet({
-      text: text || 'prueba'
+      text: text || '???'
     });
   }
 }
