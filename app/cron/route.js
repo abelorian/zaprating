@@ -19,6 +19,9 @@ export async function GET(request) {
       Tweet(tweetText)
     }
     return NextResponse.json({ ratings });
+  } else {
+    console.log("Invalid ratings :(")
+    console.log(ratings)
   }
 
   return NextResponse.json({ error: ':(' });
