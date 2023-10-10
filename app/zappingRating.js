@@ -4,7 +4,7 @@ export default async function Ratings(key){
   try {
     const response = await fetch(`https://metrics.zappingtv.com/public/rating/${key}`, {
       next: {
-        revalidate: 60, // 1 min
+        revalidate: 300, // 5 min
       },
     });
 
