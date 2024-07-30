@@ -2,11 +2,7 @@ import * as cheerio from 'cheerio';
 
 export default async function Ratings(key){
   try {
-    const response = await fetch(`https://metrics.zappingtv.com/public/rating/${key}`, {
-      next: {
-        revalidate: 300, // 5 min
-      },
-    });
+    const response = await fetch(`https://metrics.zappingtv.com/public/rating/${key}`, { cache: 'no-store' });
 
     if (!response.ok) {
       return null
